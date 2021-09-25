@@ -1,38 +1,50 @@
-#N canvas 520 177 888 556 10;
+#N canvas 439 177 888 556 10;
 #X obj 93 329 dac~;
 #X obj 85 165 loadbang;
 #X obj 295 162 loadbang;
 #X msg 80 196 symbol harp-c3.wav;
 #X msg 290 193 symbol bell-c2.wav;
-#X obj 567 415 readsf~;
-#X obj 570 501 dac~;
-#X obj 608 343 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 687 418 readsf~;
+#X obj 690 504 dac~;
+#X obj 728 346 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X msg 553 375 0;
+#X msg 673 378 0;
 #X obj 82 230 sampler-instrument 1;
 #X obj 292 228 sampler-instrument 2;
-#X obj 559 160 notein 3;
-#X obj 553 345 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 679 163 notein 3;
+#X obj 673 348 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 560 197 stripnote;
-#X msg 610 377 open apache.wav \, 1;
+#X obj 680 200 stripnote;
+#X msg 730 380 open apache.wav \, 1;
 #X obj 96 25 loadbang;
 #X msg 92 65 \; pd dsp 1;
-#X obj 569 447 *~ 0.05;
+#X obj 689 450 *~ 0.05;
 #X obj 63 473 s pd;
 #X msg 63 442 midi-dialog 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2;
 #X text 55 418 click to reset MIDI e.g. after restarting MIDI device
 ;
-#X obj 561 288 f 0;
-#X obj 601 288 == 0;
-#X obj 559 315 sel 1;
-#X obj 561 263 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 681 291 f 0;
+#X obj 721 291 == 0;
+#X obj 679 318 sel 1;
+#X obj 681 266 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 560 235 sel 60;
+#X obj 680 238 sel 60;
 #X obj 91 298 *~;
 #X obj 153 298 *~;
-#X obj 19 211 loadbang;
-#X msg 19 240 0.2;
+#X obj 473 248 ctlin;
+#X obj 494 187 v volume;
+#X obj 471 121 loadbang;
+#X msg 473 153 0.2;
+#X floatatom 480 468 5 0 0 0 - - -;
+#X obj 473 350 expr volume = volume + $f1;
+#X obj 474 282 expr ($f1 - 64) / 100;
+#X obj 474 315 * 5;
+#X obj 481 501 send volumeUpdate;
+#X obj 116 260 r volumeUpdate;
+#X obj 475 428 expr volume = min(1 \, volume);
+#X obj 472 391 expr volume = max(0.05 \, volume);
+#X obj 472 217 send volumeUpdate;
+#X floatatom 225 294 5 0 0 0 - - -;
 #X connect 1 0 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 9 0;
@@ -61,6 +73,17 @@
 #X connect 25 0 24 0;
 #X connect 26 0 0 0;
 #X connect 27 0 0 1;
-#X connect 28 0 29 0;
-#X connect 29 0 26 1;
-#X connect 29 0 27 1;
+#X connect 28 0 34 0;
+#X connect 29 0 40 0;
+#X connect 30 0 31 0;
+#X connect 31 0 29 0;
+#X connect 31 0 40 0;
+#X connect 32 0 36 0;
+#X connect 33 0 39 0;
+#X connect 34 0 35 0;
+#X connect 35 0 33 0;
+#X connect 37 0 27 1;
+#X connect 37 0 26 1;
+#X connect 37 0 41 0;
+#X connect 38 0 32 0;
+#X connect 39 0 38 0;
