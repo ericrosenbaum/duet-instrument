@@ -68,11 +68,21 @@ def setChannelPan(channel, pan):
 root = 60
 
 scales = [
-    [0, 2, 3, 5, 7, 10, 12], # minor scale: C D Eb F G Bb C
-    [0, 3, 5, 7, 10, 12, 15], # minor pentatonic: C Eb F G Bb C Eb
-    [0, 2, 4, 5, 7, 9, 12], # major scale: C D E F G A C
-    [0, 4, 7, 9, 12, 16, 19], # major 6: C E G A C E G
-    [0, 2, 4, 6, 8, 10, 12] # whole tone: C D E F# G# A# C
+    [0, 2, 3, 5, 7, 10, 12],  # Cm7: C D Eb F G Bb C
+    [-7, -4, -2, 0, 3, 5, 8], # Fm7: F Ab Bb C Eb F Ab
+    [2, 4, 5, 7, 8, 12, 14],  # Dm7b5: D E F G Ab C D
+    [-1, 0, 2, 5, 7, 11, 14], # G7: B C D F G B D
+
+#     [0, 2, 4, 5, 7, 10, 12], # C7: C D E F G Bb C
+#     [0, 2, 3, 5, 7, 9, 12], # F7: C D Eb F G A C
+#     [-1, 0, 2, 5, 7, 11, 14], # G7: B C D F G B D
+#     [0, 2, 4, 5, 7, 9, 12], # C6: C D E F G A C
+
+#     [0, 2, 3, 5, 7, 10, 12], # minor scale: C D Eb F G Bb C
+#     [0, 3, 5, 7, 10, 12, 15], # minor pentatonic: C Eb F G Bb C Eb
+#     [0, 2, 4, 5, 7, 9, 12], # major scale: C D E F G A C
+#     [0, 4, 7, 9, 12, 16, 19], # major 6: C E G A C E G
+#     [0, 2, 4, 6, 8, 10, 12] # whole tone: C D E F# G# A# C
 ]
 
 scale_num = 0;
@@ -129,9 +139,10 @@ def next_scale():
     play_scale()
 
 def play_scale():
-    for note in scale:
-        noteOn(0, root + note, 120)
-        #time.sleep(0.05)
+    noteOn(0, root + scale[0], 120)
+    noteOn(0, root + scale[2], 120)
+    noteOn(0, root + scale[4], 120)
+    noteOn(0, root + scale[6], 120)
 
 def knob():
     global volume
@@ -144,14 +155,15 @@ def knob():
         setChannelVolume(2, volume)
 
 def buttons():
-    global drums_playing, next_time
+    global drums_playing, next_time, drum_pattern_index
     button1.update()
     if button1.fell:
-        drums_playing = not drums_playing
-        next_time = supervisor.ticks_ms()
+        next_scale()
     button2.update()
     if button2.fell:
-        next_scale()
+        drums_playing = not drums_playing
+        next_time = supervisor.ticks_ms()
+        drum_pattern_index = 0
 
 def playDrums():
     global next_time, drum_pattern_index
@@ -159,7 +171,7 @@ def playDrums():
         now = supervisor.ticks_ms()
         if (now > next_time):
             for note in drum_pattern[drum_pattern_index]:
-                noteOn(2, note, 120)
+                noteOn(2, note, 127)
             next_time += interval
             drum_pattern_index += 1
             drum_pattern_index %= len(drum_pattern)
@@ -188,5 +200,3 @@ while True:
     play_touches(cap1, 0, touch_states1)
     play_touches(cap2, 1, touch_states2)
     playDrums()
-
-
