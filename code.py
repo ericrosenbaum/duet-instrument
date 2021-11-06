@@ -107,13 +107,14 @@ setChannelVolume(2, volume)
 interval = 150
 next_time = supervisor.ticks_ms()
 HAT = 42
+HAT_OPEN = 46
 KICK = 36
 SNARE = 38
 drum_pattern = [
     [HAT,KICK],[],[HAT],[],[HAT,SNARE],[],[HAT],[KICK],
     [HAT],[KICK],[HAT],[],[HAT,SNARE],[],[HAT],[],
     [HAT,KICK],[],[HAT],[],[HAT,SNARE],[],[HAT],[KICK],
-    [],[],[],[],[SNARE],[],[],[]
+    [],[],[HAT],[],[SNARE],[],[HAT_OPEN],[]
 ]
 drum_pattern_index = 0
 drums_playing = False
