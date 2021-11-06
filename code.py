@@ -2,7 +2,6 @@ import board
 import digitalio
 from analogio import AnalogIn
 import time
-import supervisor
 import math
 import busio
 import adafruit_mpr121
@@ -104,8 +103,8 @@ setChannelBank(2, VS1053_BANK_DRUMS1)
 setChannelInstrument(2, 0)
 setChannelVolume(2, volume)
 
-interval = 150
-next_time = supervisor.ticks_ms()
+interval = 0.15
+next_time = time.monotonic()
 HAT = 42
 HAT_OPEN = 46
 KICK = 36
@@ -163,13 +162,13 @@ def buttons():
     button2.update()
     if button2.fell:
         drums_playing = not drums_playing
-        next_time = supervisor.ticks_ms()
+        next_time = time.monotonic()
         drum_pattern_index = 0
 
 def playDrums():
     global next_time, drum_pattern_index
     if (drums_playing):
-        now = supervisor.ticks_ms()
+        now = time.monotonic()
         if (now > next_time):
             for note in drum_pattern[drum_pattern_index]:
                 noteOn(2, note, 127)
@@ -180,7 +179,7 @@ def playDrums():
 """
 # loop timing tester
 while True:
-    start = supervisor.ticks_ms()
+    start = time.monotonic()
     reps = 100
     for count in range(reps):
         knob()
@@ -188,7 +187,7 @@ while True:
         play_touches(cap1, 0, touch_states1)
         play_touches(cap2, 1, touch_states2)
         playDrums()
-    print((supervisor.ticks_ms() - start) / reps)
+    print((time.monotonic() - start) / reps)
 """
 
 # startup sequence
