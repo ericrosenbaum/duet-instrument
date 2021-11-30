@@ -1,7 +1,7 @@
 # Duet Instrument
 A musical instrument built for two. The two sides of the instrument have matching sets of notes in matching colors. They're mirrored, so if we make the same movement, we play the same melody. You can play together in synchrony, have a call-and-response conversation, trade phrases, or play other improvisation games.
 
-It's about a shared experience of musical communication. A flow state, where you're in sync with each other. A non-verbal conversation through musical gestures. 
+It's about a shared experience of musical communication: A flow state, where you're in sync with each other; A musical conversation. 
 
 [![video thumbnail](http://img.youtube.com/vi/LJ8UbLy1rD8/0.jpg)](http://www.youtube.com/watch?v=LJ8UbLy1rD8)
 
